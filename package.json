@@ -1,0 +1,23 @@
+{
+  "name": "simple-push-server",
+  "version": "1.0.0",
+  "description": "Web Push Server",
+  "main": "handler.js",
+  "scripts": {
+    "deploy-static": "sls deploy -f static"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.1",
+    "@types/node": "^8.0.57",
+    "copy-webpack-plugin": "^4.5.2",
+    "serverless-aws-static-file-handler": "^1.0.0",
+    "serverless-domain-manager": "^2.6.0",
+    "serverless-webpack": "^5.1.1",
+    "source-map-support": "^0.5.6",
+    "ts-loader": "^4.2.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.5.0"
+  },
+  "author": "Paul Lessing <paul@paullessing.com>",
+  "license": "MIT"
+}

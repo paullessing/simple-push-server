@@ -1,0 +1,33 @@
+service:
+  name: push-service
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-domain-manager
+  - serverless-aws-static-file-handler
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-2
+
+functions:
+  static:
+    handler: handler.staticFiles
+    events:
+    - http:
+        path: /{any+}
+        method: get
+    - http:
+        path: /
+        method: get
+
+custom:
+  customDomain:
+    domainName: push.paullessing.com
+    certificateArn: paullessing.com
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: false
+    endpointType: edge
