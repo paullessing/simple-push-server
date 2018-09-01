@@ -3,8 +3,10 @@
     "sourceMap": true,
     "target": "es6",
     "lib": [
-      "esnext"
+      "es6",
+      "dom"
     ],
+    "outDir": "../../frontend/js",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -14,8 +16,5 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "exclude": [
-    "node_modules",
-    "src/frontend"
-  ]
+  "exclude": ["service-worker.ts"]
 }

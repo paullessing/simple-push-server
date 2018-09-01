@@ -11,3 +11,6 @@ jspm_packages
 .idea/
 
 yarn-error.log
+
+frontend/js/
+src/config/config.ts
