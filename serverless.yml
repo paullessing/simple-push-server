@@ -11,8 +11,42 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: eu-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+      - dynamodb:DescribeTable
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:BatchWriteItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+      Resource: arn:aws:dynamodb:eu-west-2:*:*
+
+resources:
+  Resources:
+    guestsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: simple-push-server.subscriptions
+        AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
 functions:
+  save:
+    handler: handler.saveSubscription
+    events:
+    - http:
+        path: /api/subscription
+        method: put
   static:
     handler: handler.staticFiles
     events:

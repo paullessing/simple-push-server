@@ -1,6 +1,7 @@
 import { APIGatewayEvent, Callback, Context, Handler } from 'aws-lambda';
 // @ts-ignore
 import * as StaticFileHandler from 'serverless-aws-static-file-handler';
+import { saveSubscription } from './src/server/subscriptions.handler';
 
 // export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Callback) => {
 //   const response = {
@@ -14,7 +15,7 @@ import * as StaticFileHandler from 'serverless-aws-static-file-handler';
 //   cb(null, response);
 // };
 
-export const staticFiles = async (event: APIGatewayEvent, context: Context, callback: Callback) => {
+const staticFiles = async (event: APIGatewayEvent, context: Context, callback: Callback) => {
   const clientFilesPath = './frontend/';
   if (event.path === '/' || !event.path) {
     event = { ...event, path: '/index.html' };
@@ -25,4 +26,9 @@ export const staticFiles = async (event: APIGatewayEvent, context: Context, call
   } catch (e) {
     callback(null, { statusCode: 500, body: JSON.stringify(e.stack) });
   }
+};
+
+export {
+  staticFiles,
+  saveSubscription
 };

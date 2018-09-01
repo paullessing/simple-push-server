@@ -22,9 +22,19 @@
   version "8.10.1"
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.1.tgz#424888a9ee89f6b5fc6dc23f31b00a715483dcaf"
 
+"@types/node@*":
+  version "10.9.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.4.tgz#0f4cb2dc7c1de6096055357f70179043c33e9897"
+
 "@types/node@^8.0.57":
   version "8.10.29"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.29.tgz#b3a13b58dd7b0682bf1b42022bef4a5a9718f687"
+
+"@types/uuid@^3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.4.tgz#7af69360fa65ef0decb41fd150bf4ca5c0cefdf5"
+  dependencies:
+    "@types/node" "*"
 
 "@webassemblyjs/ast@1.5.13":
   version "1.5.13"
@@ -381,6 +391,20 @@ atob@^2.1.1:
 aws-sdk@^2.177.0, aws-sdk@^2.228.0:
   version "2.306.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.306.0.tgz#104f69b6d2291ba94cb401105514c242be51aac4"
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.8"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.1.0"
+    xml2js "0.4.19"
+
+aws-sdk@^2.307.0:
+  version "2.307.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.307.0.tgz#53a5906d36061d62e7b2ceb243920c7ef8feac97"
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -3703,9 +3727,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+typescript@^3.0.0:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
 
 uglify-es@^3.3.4:
   version "3.3.9"
@@ -3878,6 +3902,10 @@ uuid@3.1.0:
 uuid@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
+
+uuid@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
 v8flags@^3.0.0:
   version "3.1.1"
