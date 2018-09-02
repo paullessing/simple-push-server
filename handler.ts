@@ -2,6 +2,7 @@ import { APIGatewayEvent, Callback, Context, Handler } from 'aws-lambda';
 // @ts-ignore
 import * as StaticFileHandler from 'serverless-aws-static-file-handler';
 import { saveSubscription } from './src/server/subscriptions.handler';
+import { sendPush } from './src/server/push.handler';
 
 // export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Callback) => {
 //   const response = {
@@ -30,5 +31,6 @@ const staticFiles = async (event: APIGatewayEvent, context: Context, callback: C
 
 export {
   staticFiles,
-  saveSubscription
+  saveSubscription,
+  sendPush
 };

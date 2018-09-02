@@ -75,26 +75,29 @@ const main = (() => {
     return pushSubscription;
   }
 
-  function sendSubscriptionToBackEnd(subscription: PushSubscription) {
-    // return fetch('/api/save-subscription/', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(subscription)
-    // })
-    //   .then(function(response) {
-    //     if (!response.ok) {
-    //       throw new Error('Bad status code from server.');
-    //     }
-    //
-    //     return response.json();
-    //   })
-    //   .then(function(responseData) {
-    //     if (!(responseData.data && responseData.data.success)) {
-    //       throw new Error('Bad response from server.');
-    //     }
-    //   });
+  async function sendSubscriptionToBackEnd(subscription: PushSubscription) {
+    const id = localStorage.getItem('subscriptionId');
+    let url = '/api/subscriptions';
+    if (id) {
+      url = `/api/subscriptions/${id}`;
+    }
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(subscription)
+    });
+    if (!response.ok) {
+      throw new Error('Bad status code from server.');
+    }
+
+    const responseData = await response.json();
+    if (!responseData || !responseData.success) {
+      console.log('Bad Response:', responseData);
+      throw new Error('Bad response from server.');
+    }
+    localStorage.setItem('subscriptionId', responseData.id);
   }
   return main;
 })();

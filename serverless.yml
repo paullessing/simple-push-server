@@ -45,8 +45,21 @@ functions:
     handler: handler.saveSubscription
     events:
     - http:
-        path: /api/subscription
+        path: /api/subscriptions
         method: put
+    - http:
+        path: /api/subscriptions/{id}
+        method: put
+        request:
+          parameters:
+            paths:
+              id: true
+  send:
+    handler: handler.sendPush
+    events:
+    - http:
+        path: /api/push
+        method: post
   static:
     handler: handler.staticFiles
     events:

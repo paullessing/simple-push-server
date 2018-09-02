@@ -7,7 +7,7 @@ const docClient = new DynamoDB.DocumentClient();
 const TABLE_NAME = 'simple-push-server.subscriptions';
 
 export function put(subscription: SubscriptionRequest): Promise<string> {
-  const id = uuid();
+  const id = subscription.id || uuid();
   const item = {
     id,
     ...subscription
@@ -63,5 +63,25 @@ export function getAll(): Promise<SubscriptionRequest[]> {
         }
       }
     }
+  });
+}
+
+export function remove(key: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const itemToDelete: DocumentClient.DeleteItemInput = {
+      TableName: TABLE_NAME,
+      Key: { id: key }
+    };
+
+    console.log('Deleting:', key);
+
+    docClient.delete(itemToDelete, (error) => {
+      console.log('Finished deleting' + (error ? ' with error' : ''), error);
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
   });
 }
