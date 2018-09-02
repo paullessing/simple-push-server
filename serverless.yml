@@ -6,6 +6,8 @@ plugins:
   - serverless-webpack
   - serverless-domain-manager
   - serverless-aws-static-file-handler
+  - serverless-apigw-binary
+  - serverless-apigwy-binary
 
 provider:
   name: aws
@@ -41,7 +43,7 @@ resources:
           WriteCapacityUnits: 1
 
 functions:
-  save:
+  subscribe:
     handler: handler.saveSubscription
     events:
     - http:
@@ -54,7 +56,7 @@ functions:
           parameters:
             paths:
               id: true
-  send:
+  push:
     handler: handler.sendPush
     events:
     - http:
@@ -63,6 +65,10 @@ functions:
   static:
     handler: handler.staticFiles
     events:
+    - http:
+        path: /bin/{file+}
+        method: get
+        contentHandling: CONVERT_TO_BINARY
     - http:
         path: /{any+}
         method: get
@@ -78,3 +84,7 @@ custom:
     stage: ${self:provider.stage}
     createRoute53Record: false
     endpointType: edge
+  apigwBinary:
+    types:
+    - 'image/png'
+    - 'image/x-icon'

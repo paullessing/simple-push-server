@@ -13,6 +13,30 @@ export const sendPush: Handler = async (event: APIGatewayEvent, context: Context
     });
   }
 
+  let eventBody: any;
+  try {
+    if (event.body) {
+      try {
+        eventBody = JSON.parse(event.body);
+      } catch (e) {
+        // For some reason all the data is base64 encoded sometimes, so try decoding
+        eventBody = JSON.parse(new Buffer(event.body, 'base64').toString('utf-8'));
+      }
+    }
+  } catch (e) {
+    console.log('Could not parse body', e);
+    return callback(null, {
+      statusCode: 400,
+      body: 'Invalid body'
+    });
+  }
+  if (!eventBody) {
+    return callback(null, {
+      statusCode: 400,
+      body: 'Missing body'
+    })
+  }
+
   webpush.setVapidDetails(
     'mailto:push@paullessing.com',
     vapid.publicKey,
@@ -20,17 +44,13 @@ export const sendPush: Handler = async (event: APIGatewayEvent, context: Context
   );
 
   const subscriptions = await db.getAll();
-  let promiseChain = Promise.resolve();
 
-  for (const subscription of subscriptions) {
-    promiseChain = promiseChain.then(() => {
-      return triggerPushMsg(subscription, JSON.stringify({
-        hello: 'world'
-      }));
-    });
-  }
-
-  await promiseChain;
+  const data = {
+    title: eventBody.title,
+    body: eventBody.body
+  };
+  await Promise.all(subscriptions.map((subscription) =>
+    triggerPushMsg(subscription, JSON.stringify(data))));
 
   return callback(null, {
     statusCode: 200,

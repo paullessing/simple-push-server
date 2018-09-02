@@ -18,6 +18,8 @@
     "@types/uuid": "^3.4.4",
     "aws-sdk": "^2.307.0",
     "copy-webpack-plugin": "^4.5.2",
+    "serverless-apigw-binary": "^0.4.4",
+    "serverless-apigwy-binary": "^0.1.0",
     "serverless-aws-static-file-handler": "^1.0.0",
     "serverless-domain-manager": "^2.6.0",
     "serverless-webpack": "^5.1.1",

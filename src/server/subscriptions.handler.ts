@@ -34,7 +34,15 @@ const getValidSubscription = (body: string | null): SubscriptionRequest | null =
     return null;
   }
 
-  const request: SubscriptionRequest = JSON.parse(body);
+  let request: SubscriptionRequest;
+
+  try {
+    request = JSON.parse(body);
+  } catch (e) {
+    // For some reason all the data is base64 encoded sometimes, so try decoding
+    request = JSON.parse(new Buffer(body, 'base64').toString('utf-8'));
+  }
+
   if (!request.endpoint || !request.keys || !request.keys.auth || !request.keys.p256dh) {
     return null;
   }
