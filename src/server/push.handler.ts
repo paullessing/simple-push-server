@@ -47,7 +47,9 @@ export const sendPush: Handler = async (event: APIGatewayEvent, context: Context
 
   const data = {
     title: eventBody.title,
-    body: eventBody.body
+    body: eventBody.body,
+    image: eventBody.image,
+    vibrate: eventBody.vibrate,
   };
   await Promise.all(subscriptions.map((subscription) =>
     triggerPushMsg(subscription, JSON.stringify(data))));
