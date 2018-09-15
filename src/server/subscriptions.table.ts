@@ -1,12 +1,12 @@
 import { DynamoDB } from 'aws-sdk';
 import * as uuid from 'uuid/v4';
 import DocumentClient = DynamoDB.DocumentClient;
-import { SubscriptionRequest } from './subscription-request.interface';
+import { UserSubscription } from './user-subscription';
 
 const docClient = new DynamoDB.DocumentClient();
 const TABLE_NAME = 'simple-push-server.subscriptions';
 
-export function put(subscription: SubscriptionRequest): Promise<string> {
+export function put(subscription: UserSubscription): Promise<string> {
   const id = subscription.id || uuid();
   const item = {
     id,
@@ -33,7 +33,7 @@ export function put(subscription: SubscriptionRequest): Promise<string> {
   })
 }
 
-export function getAll(): Promise<SubscriptionRequest[]> {
+export function getAll(): Promise<UserSubscription[]> {
   return new Promise((resolve, reject) => {
     const params: DocumentClient.ScanInput = {
       TableName: TABLE_NAME
@@ -41,7 +41,7 @@ export function getAll(): Promise<SubscriptionRequest[]> {
 
     docClient.scan(params, onScan);
 
-    let allItems: SubscriptionRequest[] = [];
+    let allItems: UserSubscription[] = [];
 
     function onScan(err: any, data: DocumentClient.ScanOutput) {
       if (err) {
@@ -50,7 +50,7 @@ export function getAll(): Promise<SubscriptionRequest[]> {
       } else {
         // print all the movies
         console.log('Scan succeeded.');
-        allItems = allItems.concat(data.Items as SubscriptionRequest[]);
+        allItems = allItems.concat(data.Items as UserSubscription[]);
 
         // continue scanning if we have more movies, because
         // scan can retrieve a maximum of 1MB of data

@@ -1,9 +1,8 @@
-// @ts-ignore
 import * as webpush from 'web-push';
 import { API_TOKEN, vapid } from '../config/config';
 import { APIGatewayEvent, Callback, Context, Handler } from 'aws-lambda';
 import * as db from './subscriptions.table';
-import { SubscriptionRequest } from './subscription-request.interface';
+import { UserSubscription } from './user-subscription';
 
 export const sendPush: Handler = async (event: APIGatewayEvent, context: Context, callback: Callback) => {
   if ((event.headers['X-Auth-Token'] || event.headers['x-auth-token']) !== API_TOKEN) {
@@ -62,9 +61,9 @@ export const sendPush: Handler = async (event: APIGatewayEvent, context: Context
   });
 };
 
-async function triggerPushMsg(subscription: SubscriptionRequest, dataToSend: any) {
+async function triggerPushMsg(subscription: UserSubscription, dataToSend: any) {
   try {
-    await webpush.sendNotification(subscription, dataToSend);
+    await webpush.sendNotification(subscription.push, dataToSend);
   } catch (err) {
     if (err.statusCode === 410 || err.statusCode === 404) {
       console.log('Error code', err.statusCode, 'id', subscription.id);

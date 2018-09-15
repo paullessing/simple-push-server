@@ -1,6 +1,7 @@
 import { APIGatewayEvent, Callback, Context, Handler } from 'aws-lambda';
-import { SubscriptionRequest } from './subscription-request.interface';
+import { UserSubscription } from './user-subscription';
 import * as db from './subscriptions.table';
+import { PushSubscription } from 'web-push';
 
 export const saveSubscription: Handler = async (event: APIGatewayEvent, context: Context, callback: Callback) => {
   let subscription = getValidSubscription(event.body);
@@ -29,22 +30,24 @@ export const saveSubscription: Handler = async (event: APIGatewayEvent, context:
   });
 };
 
-const getValidSubscription = (body: string | null): SubscriptionRequest | null => {
+const getValidSubscription = (body: string | null): UserSubscription | null => {
   if (!body) {
     return null;
   }
 
-  let request: SubscriptionRequest;
+  let push: PushSubscription;
 
   try {
-    request = JSON.parse(body);
+    push = JSON.parse(body);
   } catch (e) {
     // For some reason all the data is base64 encoded sometimes, so try decoding
-    request = JSON.parse(new Buffer(body, 'base64').toString('utf-8'));
+    push = JSON.parse(new Buffer(body, 'base64').toString('utf-8'));
   }
 
-  if (!request.endpoint || !request.keys || !request.keys.auth || !request.keys.p256dh) {
+  if (!push || !push.endpoint || !push.keys || !push.keys.auth || !push.keys.p256dh) {
     return null;
   }
-  return request;
+  return {
+    push
+  };
 };
